@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GovContracts Pro - Government Contract Aggregator</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">GovContracts Pro</h1>
+            <nav class="nav">
+                <a href="#" id="dashboardLink">Dashboard</a>
+                <a href="#" id="searchLink">Search</a>
+                <div class="auth-section" id="authSection">
+                    <button id="loginBtn" class="btn btn-primary">Login</button>
+                    <button id="registerBtn" class="btn btn-secondary">Register</button>
+                </div>
+                <div class="user-section" id="userSection" style="display: none;">
+                    <span id="userEmail"></span>
+                    <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeLogin">&times;</span>
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <p id="loginError" class="error"></p>
+            </div>
+        </div>
+
+        <!-- Register Modal -->
+        <div id="registerModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeRegister">&times;</span>
+                <h2>Create Account</h2>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="regEmail">Email</label>
+                        <input type="email" id="regEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword">Password</label>
+                        <input type="password" id="regPassword" required minlength="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="regFullName">Full Name</label>
+                        <input type="text" id="regFullName">
+                    </div>
+                    <div class="form-group">
+                        <label for="regCompany">Company Name</label>
+                        <input type="text" id="regCompany">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+                <p id="registerError" class="error"></p>
+            </div>
+        </div>
+
+        <!-- Dashboard View -->
+        <div id="dashboardView" class="view">
+            <div class="container">
+                <h2>Dashboard</h2>
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card">
+                        <h3>Total Contracts</h3>
+                        <p class="stat-number" id="totalContracts">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Open Contracts</h3>
+                        <p class="stat-number" id="openContracts">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Closed Contracts</h3>
+                        <p class="stat-number" id="closedContracts">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Last Updated</h3>
+                        <p class="stat-text" id="lastUpdated">-</p>
+                    </div>
+                </div>
+                <div class="chart-section">
+                    <h3>Contracts by State</h3>
+                    <div id="stateChart" class="chart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search View -->
+        <div id="searchView" class="view" style="display: none;">
+            <div class="container">
+                <h2>Search Contracts</h2>
+
+                <!-- Search Filters -->
+                <div class="search-filters">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="keywordSearch">Keyword</label>
+                            <input type="text" id="keywordSearch" placeholder="Search title, description, agency...">
+                        </div>
+                        <div class="filter-group">
+                            <label for="stateFilter">State</label>
+                            <select id="stateFilter">
+                                <option value="">All States</option>
+                                <option value="Federal">Federal</option>
+                                <option value="California">California</option>
+                                <option value="Texas">Texas</option>
+                                <option value="New York">New York</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="statusFilter">Status</label>
+                            <select id="statusFilter">
+                                <option value="">All Statuses</option>
+                                <option value="open">Open</option>
+                                <option value="closed">Closed</option>
+                                <option value="awarded">Awarded</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="minValue">Min Value ($)</label>
+                            <input type="number" id="minValue" placeholder="0">
+                        </div>
+                        <div class="filter-group">
+                            <label for="maxValue">Max Value ($)</label>
+                            <input type="number" id="maxValue" placeholder="No limit">
+                        </div>
+                        <div class="filter-group">
+                            <label for="dueAfter">Due After</label>
+                            <input type="date" id="dueAfter">
+                        </div>
+                        <div class="filter-group">
+                            <label for="dueBefore">Due Before</label>
+                            <input type="date" id="dueBefore">
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button id="searchBtn" class="btn btn-primary">Search</button>
+                        <button id="clearFiltersBtn" class="btn btn-secondary">Clear Filters</button>
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div class="results-section">
+                    <div class="results-header">
+                        <h3>Results (<span id="resultCount">0</span>)</h3>
+                        <div class="pagination">
+                            <button id="prevPage" class="btn btn-small" disabled>&lt; Prev</button>
+                            <span id="pageInfo">Page 1</span>
+                            <button id="nextPage" class="btn btn-small">Next &gt;</button>
+                        </div>
+                    </div>
+                    <div id="contractsList" class="contracts-list">
+                        <p class="no-results">Enter search criteria and click "Search" to find contracts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contract Detail Modal -->
+        <div id="contractModal" class="modal">
+            <div class="modal-content modal-large">
+                <span class="close" id="closeContract">&times;</span>
+                <div id="contractDetail"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 GovContracts Pro - Data-as-a-Service Platform</p>
+            <p>Aggregating government contract opportunities from multiple sources</p>
+        </div>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
