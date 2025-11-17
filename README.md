@@ -1,404 +1,669 @@
-# GovContracts Pro - DaaS Contract Aggregator
+<div align="center">
 
-A Data-as-a-Service (DaaS) platform that aggregates government contracts and RFPs from multiple sources into a single, searchable database.
+# 🏛️ GovContracts Pro
 
-## Overview
+### **Data-as-a-Service Platform for Government Contract Intelligence**
 
-GovContracts Pro automates the collection of public government contract opportunities from various federal, state, and local procurement portals. It provides:
+*Transform scattered government procurement data into actionable business opportunities*
 
-- **Automated Scraping**: 24/7 data collection from 50+ government websites
-- **Data Aggregation**: Centralized database with deduplication and normalization
-- **REST API**: Programmatic access to contract data
-- **Web Portal**: User-friendly search interface
-- **Subscription Management**: Tiered access with rate limiting
+[![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
 
-## Architecture
+[**Explore Docs »**](#-documentation) · [**View Demo**](#-quick-start) · [**Report Bug**](../../issues) · [**Request Feature**](../../issues)
 
+---
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="rainbow line" width="100%">
+
+</div>
+
+## 🎯 The Problem We Solve
+
+<table>
+<tr>
+<td width="50%">
+
+### ❌ Without GovContracts Pro
+
+- 🕐 **100+ hours/month** manually searching
+- 📊 Fragmented data across 50+ websites
+- 🚫 Missing critical opportunities
+- 💸 Paying for multiple subscriptions
+- 📉 Inconsistent data formats
+
+</td>
+<td width="50%">
+
+### ✅ With GovContracts Pro
+
+- ⚡ **< 5 minutes** to find opportunities
+- 🎯 Single source of truth
+- 🔔 Never miss a contract again
+- 💰 One subscription, all data
+- 📈 Clean, normalized database
+
+</td>
+</tr>
+</table>
+
+---
+
+## ✨ Key Features
+
+<div align="center">
+
+| 🤖 **Automated Scraping** | 🔄 **Smart Aggregation** | 🔒 **Enterprise Security** |
+|:---:|:---:|:---:|
+| 24/7 data collection from 50+ government sources with intelligent rate limiting | Deduplication, normalization, and enrichment of contract data | JWT + API Key auth with role-based access control |
+
+| 🔍 **Powerful Search** | 📊 **Analytics Dashboard** | 🚀 **Developer API** |
+|:---:|:---:|:---:|
+| Full-text search with advanced filters (state, value, category, dates) | Real-time statistics and visual insights | RESTful API with Swagger docs |
+
+</div>
+
+---
+
+## 🏗️ Architecture
+
+```mermaid
+graph TB
+    subgraph "Data Collection Layer"
+        S1[SAM.gov Scraper]
+        S2[California eProcure]
+        S3[Texas SmartBuy]
+        S4[New York Reporter]
+        S5[+ 46 More Sources]
+    end
+
+    subgraph "Processing Layer"
+        SC[Scheduler<br/>APScheduler]
+        AG[Aggregator<br/>Deduplication]
+        DB[(Database<br/>PostgreSQL)]
+    end
+
+    subgraph "Service Layer"
+        API[REST API<br/>FastAPI]
+        AUTH[Auth Service<br/>JWT + API Keys]
+    end
+
+    subgraph "Client Layer"
+        WEB[Web Portal]
+        SDK[API Clients]
+        HOOK[Webhooks]
+    end
+
+    S1 & S2 & S3 & S4 & S5 --> SC
+    SC --> AG
+    AG --> DB
+    DB --> API
+    AUTH --> API
+    API --> WEB & SDK & HOOK
+
+    style DB fill:#f9f,stroke:#333,stroke-width:2px
+    style API fill:#bbf,stroke:#333,stroke-width:2px
 ```
-┌─────────────────┐     ┌──────────────┐     ┌─────────────┐
-│   Scrapers      │────▶│   Database   │◀────│   REST API  │
-│ (Playwright/    │     │  (SQLite/    │     │  (FastAPI)  │
-│  Requests)      │     │  PostgreSQL) │     │             │
-└─────────────────┘     └──────────────┘     └─────────────┘
-        │                       │                    │
-        ▼                       ▼                    ▼
-┌─────────────────┐     ┌──────────────┐     ┌─────────────┐
-│   Scheduler     │     │  Aggregator  │     │ Web Portal  │
-│  (APScheduler)  │     │              │     │  (HTML/JS)  │
-└─────────────────┘     └──────────────┘     └─────────────┘
-```
 
-## Features
+---
 
-### Scraping Engine
-- **Rate Limiting**: Configurable delays to respect website policies
-- **Retry Logic**: Exponential backoff for failed requests
-- **JavaScript Support**: Playwright for dynamic content
-- **Random User Agents**: Avoid detection and blocking
-- **Error Handling**: Robust error recovery and logging
-
-### Data Sources
-Pre-configured scrapers for:
-- **Federal**: SAM.gov (System for Award Management)
-- **California**: Cal eProcure
-- **Texas**: SmartBuy/ESBD
-- **New York**: Contract Reporter
-
-Easily extensible to add more sources.
-
-### API Features
-- JWT and API Key authentication
-- Full-text search across contracts
-- Advanced filtering (state, category, value, dates)
-- Pagination and rate limiting
-- OpenAPI/Swagger documentation
-- Admin endpoints for source management
-
-### Web Portal
-- Modern, responsive design
-- Real-time search with filters
-- Dashboard with statistics
-- User registration and authentication
-- Contract detail views with all metadata
-
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Python 3.9+
-- Node.js (optional, for frontend development)
-- SQLite (included) or PostgreSQL (production)
+- 🐍 Python 3.9 or higher
+- 📦 pip (Python package manager)
+- 🗄️ SQLite (included) or PostgreSQL (production)
 
-### Installation
+### ⚡ One-Click Setup
 
-1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/datta-Aggregator.git
+# Clone the repository
+git clone https://github.com/Snapwave333/datta-Aggregator.git
 cd datta-Aggregator
+
+# Run automated setup
+chmod +x setup.sh && ./setup.sh
 ```
 
-2. **Create virtual environment**
+### 📝 Manual Installation
+
+<details>
+<summary><b>Click to expand step-by-step guide</b></summary>
+
+**1️⃣ Clone & Setup Environment**
 ```bash
+git clone https://github.com/Snapwave333/datta-Aggregator.git
+cd datta-Aggregator
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
 ```
 
-3. **Install dependencies**
+**2️⃣ Install Dependencies**
 ```bash
 pip install -r requirements.txt
-```
-
-4. **Install Playwright browsers**
-```bash
 playwright install chromium
 ```
 
-5. **Configure environment**
+**3️⃣ Configure Environment**
 ```bash
 cp .env.example .env
 # Edit .env with your settings
 ```
 
-6. **Initialize database and sources**
+**4️⃣ Initialize Database**
 ```bash
 python setup_sources.py
 ```
 
-### Running the Application
-
-**Start the API Server:**
+**5️⃣ Start Services**
 ```bash
+# Terminal 1: Start API Server
 python run_api.py
-```
-API will be available at: http://localhost:8000
 
-**Start the Scraper Scheduler:**
-```bash
+# Terminal 2: Start Scraper Scheduler
 python run_scraper.py
 ```
-Scraper will run every 60 minutes (configurable).
 
-**Access the Web Portal:**
-Visit http://localhost:8000/portal
+**6️⃣ Access Application**
+- 🌐 Web Portal: http://localhost:8000/portal
+- 📚 API Docs: http://localhost:8000/docs
+- 🔧 Admin Panel: http://localhost:8000/admin
 
-**API Documentation:**
-Visit http://localhost:8000/docs (Swagger UI)
+</details>
 
-## Configuration
+---
 
-### Environment Variables (.env)
+## 💻 Usage
+
+### 🔐 Authentication
+
+<table>
+<tr>
+<td>
+
+**Register New User**
+```bash
+curl -X POST "http://localhost:8000/register" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@company.com",
+    "password": "SecurePass123!",
+    "company_name": "Construction Co"
+  }'
+```
+
+</td>
+<td>
+
+**Get Access Token**
+```bash
+curl -X POST "http://localhost:8000/token" \
+  -d "username=user@company.com" \
+  -d "password=SecurePass123!"
+```
+
+</td>
+</tr>
+</table>
+
+### 🔍 Search Contracts
+
+```bash
+# Basic keyword search
+curl -X GET "http://localhost:8000/contracts?keyword=construction" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+
+# Advanced multi-filter search
+curl -X GET "http://localhost:8000/contracts?\
+keyword=infrastructure&\
+state=California&\
+min_value=500000&\
+max_value=5000000&\
+status=open&\
+due_after=2024-06-01" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+### 📊 Get Statistics
+
+```bash
+curl -X GET "http://localhost:8000/statistics" \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+<details>
+<summary><b>📋 Example Response</b></summary>
+
+```json
+{
+  "total_contracts": 15847,
+  "open_contracts": 3241,
+  "closed_contracts": 12606,
+  "by_state": {
+    "Federal": 5234,
+    "California": 3421,
+    "Texas": 2891,
+    "New York": 2156,
+    "Florida": 1145
+  },
+  "by_source": {
+    "SAM.gov": 5234,
+    "Cal eProcure": 3421,
+    "Texas SmartBuy": 2891,
+    "NY Contract Reporter": 2156
+  },
+  "last_updated": "2024-11-17T15:30:00Z"
+}
+```
+
+</details>
+
+---
+
+## 🎨 Web Portal Features
+
+<div align="center">
+
+### 📊 **Interactive Dashboard**
+*Real-time statistics with beautiful visualizations*
+
+### 🔍 **Advanced Search Interface**
+*Multi-criteria filtering with instant results*
+
+### 📱 **Responsive Design**
+*Perfect experience on desktop, tablet, and mobile*
+
+### 🔔 **Smart Notifications**
+*Get alerts for contracts matching your criteria*
+
+</div>
+
+---
+
+## 💰 Business Model & Pricing
+
+<div align="center">
+
+| Plan | Monthly Price | API Calls/Day | Results/Query | Features |
+|:---:|:---:|:---:|:---:|:---|
+| **🆓 Free** | $0 | 100 | 50 | Basic search, Limited history |
+| **🥉 Basic** | $49 | 1,000 | 500 | Email alerts, Export CSV |
+| **🥈 Professional** | $99 | 10,000 | 2,000 | Webhooks, Priority support |
+| **🥇 Enterprise** | $299 | Unlimited | Unlimited | Custom scrapers, SLA, Dedicated support |
+
+</div>
+
+### 💵 Revenue Streams
+
+- 🔄 **Recurring Subscriptions** - Monthly/Annual plans
+- 🔧 **Custom Integrations** - API integration services
+- 📊 **Premium Data Sources** - Specialized industry data
+- 🚨 **Alert Services** - Real-time contract notifications
+- 📈 **Analytics Add-ons** - Advanced reporting tools
+
+---
+
+## 🔧 Configuration
+
+### Environment Variables
 
 ```env
-# Database
-DATABASE_URL=sqlite:///./data/contracts.db
+# 🗄️ Database Configuration
+DATABASE_URL=postgresql://user:pass@localhost/contracts
 
-# API
+# 🌐 API Settings
 API_HOST=0.0.0.0
 API_PORT=8000
-SECRET_KEY=your-super-secret-key-change-in-production
-ACCESS_TOKEN_EXPIRE_MINUTES=1440
+SECRET_KEY=your-256-bit-secret-key-here
 
-# Scraping
+# 🤖 Scraping Configuration
 SCRAPE_INTERVAL_MINUTES=60
 MAX_CONCURRENT_SCRAPERS=5
 REQUEST_TIMEOUT_SECONDS=30
 RATE_LIMIT_DELAY_SECONDS=2
 
-# Logging
+# 📝 Logging
 LOG_LEVEL=INFO
 LOG_FILE=./data/daas.log
 ```
 
-## API Usage
+---
 
-### Authentication
+## 🔌 Adding New Data Sources
 
-**Register a new user:**
-```bash
-curl -X POST "http://localhost:8000/register" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "user@example.com",
-    "password": "securepassword",
-    "full_name": "John Doe",
-    "company_name": "Acme Corp"
-  }'
-```
+<details>
+<summary><b>📖 Step-by-Step Guide</b></summary>
 
-**Get access token:**
-```bash
-curl -X POST "http://localhost:8000/token" \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "username=user@example.com&password=securepassword"
-```
-
-### Search Contracts
-
-**Basic search:**
-```bash
-curl -X GET "http://localhost:8000/contracts?keyword=construction" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
-
-**Advanced search:**
-```bash
-curl -X GET "http://localhost:8000/contracts?\
-keyword=technology&\
-state=California&\
-min_value=100000&\
-status=open&\
-due_after=2024-01-01" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
-
-**Using API Key:**
-```bash
-curl -X GET "http://localhost:8000/contracts" \
-  -H "X-API-Key: daas_your_api_key_here"
-```
-
-### Get Statistics
-
-```bash
-curl -X GET "http://localhost:8000/statistics" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
-
-## Adding New Scrapers
-
-1. **Create a new scraper class** in `src/scrapers/`:
+### 1️⃣ Create Scraper Class
 
 ```python
+# src/scrapers/florida_scraper.py
 from src.scrapers.base import BaseScraper
+from typing import List, Dict, Any
 
-class NewStateScraper(BaseScraper):
+class FloridaScraper(BaseScraper):
+    """Scraper for Florida VBS (Vendor Bid System)."""
+
     def __init__(self, source_id: int):
         super().__init__(
             source_id=source_id,
-            source_name="NewState_Procurement",
-            base_url="https://procurement.newstate.gov",
+            source_name="Florida_VBS",
+            base_url="https://vendor.myfloridamarketplace.com",
         )
 
     async def get_listing_urls(self) -> List[str]:
-        # Return URLs of pages to scrape
-        return ["https://procurement.newstate.gov/search?page=1"]
+        """Return URLs to scrape."""
+        return [
+            f"{self.base_url}/search?page={i}"
+            for i in range(1, 11)
+        ]
 
     async def parse_listing_page(self, html: str) -> List[Dict[str, Any]]:
-        # Parse HTML and return contract data
+        """Extract contract data from HTML."""
         contracts = []
         soup = self.parse_html(html)
-        # ... extraction logic
+
+        for item in soup.find_all("div", class_="bid-item"):
+            contracts.append({
+                "external_id": self._extract_id(item),
+                "title": self._extract_title(item),
+                "due_date": self._extract_date(item),
+                # ... more fields
+            })
+
         return contracts
 ```
 
-2. **Register the scraper** in `src/scrapers/__init__.py`:
+### 2️⃣ Register Scraper
 
 ```python
-from src.scrapers.new_state import NewStateScraper
+# src/scrapers/__init__.py
+from src.scrapers.florida_scraper import FloridaScraper
 
 SCRAPER_REGISTRY = {
     # ... existing scrapers
-    "NewStateScraper": NewStateScraper,
+    "FloridaScraper": FloridaScraper,
 }
 ```
 
-3. **Add the data source** via API or setup script:
+### 3️⃣ Add Data Source
 
 ```python
+# Via API or setup script
 manager.add_source(
-    name="NewState Procurement",
-    base_url="https://procurement.newstate.gov",
-    scraper_class="NewStateScraper",
-    state="NewState",
+    name="Florida VBS",
+    base_url="https://vendor.myfloridamarketplace.com",
+    scraper_class="FloridaScraper",
+    state="Florida",
     scrape_frequency_minutes=120,
 )
 ```
 
-## Business Model
+</details>
 
-### Subscription Tiers
+---
 
-| Tier | Price/Month | API Calls/Day | Max Results |
-|------|-------------|---------------|-------------|
-| Free | $0 | 100 | 50 |
-| Basic | $49 | 1,000 | 500 |
-| Professional | $99 | 10,000 | 2,000 |
-| Enterprise | $299 | Unlimited | Unlimited |
+## 🐳 Docker Deployment
 
-### Revenue Streams
+<details>
+<summary><b>🚀 Production-Ready Docker Setup</b></summary>
 
-1. **Subscription Fees**: Recurring monthly revenue from data access
-2. **Custom Integrations**: One-time fees for API integration support
-3. **Premium Sources**: Additional fee for specialized data sources
-4. **Alerts & Notifications**: Premium feature for contract alerts
-
-## Production Deployment
-
-### Using Docker
-
+**Dockerfile**
 ```dockerfile
-# Dockerfile
 FROM python:3.11-slim
 
 WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install Playwright
 RUN playwright install chromium
+RUN playwright install-deps
 
 COPY . .
+
+EXPOSE 8000
 
 CMD ["python", "run_api.py"]
 ```
 
+**docker-compose.yml**
 ```yaml
-# docker-compose.yml
 version: '3.8'
+
 services:
   api:
     build: .
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql://user:pass@db/contracts
+      - DATABASE_URL=postgresql://daas:securepass@db/contracts
     depends_on:
       - db
+    restart: unless-stopped
 
   scraper:
     build: .
     command: python run_scraper.py
+    environment:
+      - DATABASE_URL=postgresql://daas:securepass@db/contracts
     depends_on:
       - db
+    restart: unless-stopped
 
   db:
-    image: postgres:15
+    image: postgres:15-alpine
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
+      - POSTGRES_USER=daas
       - POSTGRES_PASSWORD=securepass
+      - POSTGRES_DB=contracts
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
 
 volumes:
   pgdata:
 ```
 
-### Security Recommendations
-
-1. **Change default credentials** immediately after setup
-2. **Use HTTPS** in production (nginx/traefik reverse proxy)
-3. **Rotate API keys** regularly
-4. **Monitor scraping** to respect robots.txt and rate limits
-5. **Backup database** regularly
-6. **Implement IP whitelisting** for admin endpoints
-
-## Legal Considerations
-
-- Ensure compliance with website Terms of Service
-- Respect robots.txt directives
-- Implement rate limiting to avoid service disruption
-- Only scrape publicly available data
-- Consider data retention policies
-- Consult legal counsel for commercial use
-
-## Project Structure
-
-```
-datta-Aggregator/
-├── src/
-│   ├── api/              # FastAPI REST API
-│   │   ├── auth.py       # Authentication
-│   │   ├── main.py       # API endpoints
-│   │   └── schemas.py    # Pydantic models
-│   ├── models/           # Database models
-│   │   ├── contract.py   # Contract model
-│   │   ├── source.py     # Data source model
-│   │   └── user.py       # User & subscription
-│   ├── processors/       # Data processing
-│   │   ├── aggregator.py # Deduplication
-│   │   └── scrape_manager.py
-│   ├── scrapers/         # Web scrapers
-│   │   ├── base.py       # Base scraper classes
-│   │   ├── sam_gov.py    # Federal contracts
-│   │   └── state_portals.py
-│   ├── utils/            # Utilities
-│   │   ├── helpers.py    # Data parsing
-│   │   └── logger.py     # Logging setup
-│   ├── config.py         # Configuration
-│   └── scheduler.py      # Job scheduler
-├── frontend/             # Web portal
-│   ├── index.html
-│   ├── styles.css
-│   └── app.js
-├── data/                 # Database & logs
-├── tests/                # Test suite
-├── run_api.py            # Start API server
-├── run_scraper.py        # Start scheduler
-├── setup_sources.py      # Initialize data
-└── requirements.txt      # Dependencies
-```
-
-## Testing
-
-Run the test suite:
-
+**Deploy**
 ```bash
-pytest tests/ -v
+docker-compose up -d
 ```
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Add tests for new functionality
-4. Ensure all tests pass
-5. Submit a pull request
-
-## Support
-
-For issues and feature requests, please open a GitHub issue.
-
-## License
-
-This project is licensed under the MIT License. See LICENSE file for details.
+</details>
 
 ---
 
-**GovContracts Pro** - Aggregating opportunity, one contract at a time.
+## 📁 Project Structure
+
+```
+datta-Aggregator/
+├── 📂 src/                          # Source code
+│   ├── 📂 api/                      # REST API (FastAPI)
+│   │   ├── auth.py                  # Authentication & authorization
+│   │   ├── main.py                  # API endpoints
+│   │   └── schemas.py               # Pydantic models
+│   ├── 📂 models/                   # Database models (SQLAlchemy)
+│   │   ├── contract.py              # Contract entity
+│   │   ├── source.py                # Data source entity
+│   │   └── user.py                  # User & subscriptions
+│   ├── 📂 processors/               # Data processing logic
+│   │   ├── aggregator.py            # Deduplication & normalization
+│   │   └── scrape_manager.py        # Orchestrates scraping jobs
+│   ├── 📂 scrapers/                 # Web scraping modules
+│   │   ├── base.py                  # Base scraper classes
+│   │   ├── sam_gov.py               # Federal contracts (SAM.gov)
+│   │   └── state_portals.py         # State government scrapers
+│   ├── 📂 utils/                    # Utility functions
+│   │   ├── helpers.py               # Data parsing helpers
+│   │   └── logger.py                # Logging configuration
+│   ├── config.py                    # Application configuration
+│   └── scheduler.py                 # Job scheduling (APScheduler)
+├── 📂 frontend/                     # Web portal frontend
+│   ├── index.html                   # Main HTML template
+│   ├── styles.css                   # Styling
+│   └── app.js                       # Frontend JavaScript
+├── 📂 tests/                        # Test suite
+│   └── test_helpers.py              # Unit tests
+├── 📂 data/                         # Database & logs (gitignored)
+├── 📄 run_api.py                    # Start API server
+├── 📄 run_scraper.py                # Start scraper daemon
+├── 📄 setup_sources.py              # Initialize database
+├── 📄 requirements.txt              # Python dependencies
+├── 📄 .env.example                  # Environment template
+└── 📄 README.md                     # You are here! 👋
+```
+
+---
+
+## 🔒 Security Best Practices
+
+<div align="center">
+
+| Security Feature | Implementation |
+|:---|:---|
+| 🔐 **Password Hashing** | bcrypt with salt |
+| 🎟️ **Token Security** | JWT with expiration |
+| 🚦 **Rate Limiting** | Per-user API quotas |
+| 🛡️ **Input Validation** | Pydantic schemas |
+| 🔑 **API Key Rotation** | Unique keys per user |
+| 📝 **Audit Logging** | All actions tracked |
+
+</div>
+
+### ⚠️ Important Security Notes
+
+1. **Change default credentials** immediately after installation
+2. **Use HTTPS** in production (nginx/traefik reverse proxy)
+3. **Rotate secrets** regularly (JWT secret, API keys)
+4. **Monitor logs** for suspicious activity
+5. **Backup database** with encryption
+6. **Implement firewall** rules for admin endpoints
+
+---
+
+## ⚖️ Legal & Ethical Considerations
+
+> **Important:** This tool is designed for ethical data collection of **publicly available** government information.
+
+- ✅ Respect `robots.txt` directives
+- ✅ Implement rate limiting to avoid service disruption
+- ✅ Comply with Terms of Service
+- ✅ Only scrape public data
+- ✅ Maintain data retention policies
+- ✅ Consult legal counsel before commercial deployment
+
+---
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+pytest tests/ -v
+
+# Run with coverage
+pytest tests/ --cov=src --cov-report=html
+
+# Run specific test file
+pytest tests/test_helpers.py -v
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how you can help:
+
+1. 🍴 **Fork** the repository
+2. 🌿 **Create** your feature branch (`git checkout -b feature/AmazingFeature`)
+3. 💻 **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
+4. 📤 **Push** to the branch (`git push origin feature/AmazingFeature`)
+5. 🔃 **Open** a Pull Request
+
+### 📋 Contribution Ideas
+
+- 🌍 Add scrapers for more states/countries
+- 🎨 Improve frontend UI/UX
+- 📊 Add more analytics features
+- 🔔 Implement email notifications
+- 📱 Build mobile app
+- 🧪 Increase test coverage
+
+---
+
+## 🗺️ Roadmap
+
+- [x] Core scraping framework
+- [x] REST API with authentication
+- [x] Web portal with search
+- [x] Subscription management
+- [ ] 🔜 Email notification system
+- [ ] 🔜 Machine learning contract matching
+- [ ] 🔜 Mobile application
+- [ ] 🔜 Advanced analytics dashboard
+- [ ] 🔜 Slack/Teams integration
+- [ ] 🔜 Automated bid response generation
+
+---
+
+## 📬 Support & Contact
+
+<div align="center">
+
+**Need Help?**
+
+[![GitHub Issues](https://img.shields.io/badge/GitHub-Issues-red?style=for-the-badge&logo=github)](../../issues)
+[![Discussions](https://img.shields.io/badge/GitHub-Discussions-purple?style=for-the-badge&logo=github)](../../discussions)
+
+</div>
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- [FastAPI](https://fastapi.tiangolo.com/) - Modern web framework
+- [Playwright](https://playwright.dev/) - Browser automation
+- [SQLAlchemy](https://www.sqlalchemy.org/) - Database ORM
+- [APScheduler](https://apscheduler.readthedocs.io/) - Task scheduling
+- All the amazing open source contributors
+
+---
+
+<div align="center">
+
+### ⭐ Star This Repository!
+
+If you find this project useful, please consider giving it a star. It helps others discover this tool!
+
+[![GitHub stars](https://img.shields.io/github/stars/Snapwave333/datta-Aggregator?style=social)](../../stargazers)
+
+---
+
+**Built with ❤️ for the Government Contracting Community**
+
+*"Transforming procurement chaos into business opportunity"*
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="rainbow line" width="100%">
+
+**[⬆ Back to Top](#-govcontracts-pro)**
+
+</div>
