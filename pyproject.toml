@@ -1,0 +1,23 @@
+[project]
+name = "daas-contract-aggregator"
+version = "1.0.0"
+description = "Data-as-a-Service bot for aggregating government contracts and RFPs"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "DaaS Team", email = "team@example.com"}
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+asyncio_mode = "auto"
+
+[tool.black]
+line-length = 100
+target-version = ['py39']
+
+[tool.isort]
+profile = "black"
+line_length = 100
